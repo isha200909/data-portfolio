@@ -1,0 +1,517 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- EDIT: Page title shown in browser tab and Google search results -->
+  <title>Using Data to Drive Actions | Data Analytics Portfolio</title>
+  <meta name="description" content="A data analytics portfolio showcasing interactive apps and analytical models that turn real-world data into actionable insights." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #0a0f1e; color: #e2e8f0; line-height: 1.6; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Navigation ── */
+    nav {
+      background: rgba(10,15,30,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 16px 0;
+      position: sticky; top: 0; z-index: 100;
+    }
+    nav .container { display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { font-weight: 700; font-size: 1rem; color: #38bdf8; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { font-size: 0.9rem; color: #94a3b8; transition: color 0.2s; }
+    .nav-links a:hover { color: #e2e8f0; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #0a0f1e 0%, #0f2040 50%, #0a1628 100%);
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(56,189,248,0.12) 0%, transparent 65%);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.28);
+      color: #38bdf8;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #94d2ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p { font-size: 1.1rem; color: #94a3b8; max-width: 620px; margin: 0 auto 40px; }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+      color: white; padding: 14px 32px; border-radius: 10px;
+      font-size: 1rem; font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 24px rgba(14,165,233,0.3);
+    }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(14,165,233,0.45); }
+
+    /* ── Sections ── */
+    section { padding: 80px 0; }
+    .section-label {
+      text-align: center; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: #38bdf8; margin-bottom: 12px;
+    }
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700; color: #f1f5f9; margin-bottom: 12px;
+    }
+    .section-subtitle {
+      text-align: center; color: #64748b; font-size: 1rem;
+      max-width: 560px; margin: 0 auto 52px;
+    }
+
+    /* ── Project Cards (non-technical) ── */
+    #projects { background: #0a0f1e; }
+    .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; }
+    .project-card {
+      background: linear-gradient(145deg, #0f1c35, #0a1628);
+      border: 1px solid rgba(56,189,248,0.15);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex; flex-direction: column;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(56,189,248,0.4);
+      box-shadow: 0 12px 40px rgba(56,189,248,0.1);
+    }
+    .project-icon { font-size: 2.4rem; margin-bottom: 16px; }
+    .project-domain {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: #38bdf8; margin-bottom: 8px;
+    }
+    .project-card h3 { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 10px; }
+    .project-card p { font-size: 0.92rem; color: #64748b; flex-grow: 1; margin-bottom: 24px; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .tag {
+      display: inline-block;
+      background: rgba(56,189,248,0.08);
+      color: #38bdf8;
+      border: 1px solid rgba(56,189,248,0.18);
+      font-size: 0.7rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 20px;
+    }
+    .btn-launch {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: linear-gradient(135deg, #0ea5e9, #2563eb);
+      color: white; padding: 12px 24px; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-launch:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(14,165,233,0.35); }
+
+    /* ── Technical deep-dive section ── */
+    #technical { background: #080d1a; }
+    .tech-project-block { margin-bottom: 56px; }
+    .tech-project-block:last-child { margin-bottom: 0; }
+    .tech-project-header {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .tech-project-header .icon { font-size: 1.6rem; }
+    .tech-project-header h3 { font-size: 1.1rem; font-weight: 700; color: #e2e8f0; }
+    .tech-project-header .repo-link {
+      margin-left: auto;
+      font-size: 0.8rem; color: #475569;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 5px 12px; border-radius: 6px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tech-project-header .repo-link:hover { color: #94a3b8; border-color: rgba(255,255,255,0.18); }
+    .file-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .file-card {
+      background: #0f1c35;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px; padding: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .file-card:hover { border-color: rgba(100,116,139,0.35); transform: translateY(-2px); }
+    .file-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .file-icon {
+      width: 32px; height: 32px;
+      background: rgba(100,116,139,0.12);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .file-card h4 { font-size: 0.88rem; font-weight: 600; color: #cbd5e1; }
+    .file-card p { font-size: 0.8rem; color: #475569; margin-bottom: 14px; }
+    .btn-code {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(100,116,139,0.1);
+      border: 1px solid rgba(100,116,139,0.22);
+      color: #94a3b8; padding: 7px 14px; border-radius: 6px;
+      font-size: 0.8rem; font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-code:hover { background: rgba(100,116,139,0.22); color: #e2e8f0; }
+
+    /* ── About ── */
+    #about { background: #0a0f1e; }
+    .about-inner {
+      max-width: 720px; margin: 0 auto; text-align: center;
+    }
+    .about-inner h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; color: #f1f5f9; }
+    .about-inner p { color: #64748b; font-size: 0.95rem; margin-bottom: 14px; }
+    .skill-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 32px; }
+    .skill-badge {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #94a3b8;
+      padding: 6px 14px; border-radius: 6px;
+      font-size: 0.82rem; font-weight: 500;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: #080d1a;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 0; text-align: center;
+      color: #475569; font-size: 0.85rem;
+    }
+    footer a { color: #38bdf8; transition: opacity 0.2s; }
+    footer a:hover { opacity: 0.75; }
+
+    @media (max-width: 768px) {
+      .nav-links { gap: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ════════════════════ NAVIGATION ════════════════════ -->
+  <nav>
+    <div class="container">
+      <!-- EDIT: Your portfolio name -->
+      <span class="nav-brand">📊 Using Data to Drive Actions</span>
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#technical">Code</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════ HERO ════════════════════ -->
+  <header class="hero">
+    <div class="container">
+      <!-- EDIT: The small label above your headline (e.g. your programme, institution) -->
+      <div class="hero-badge">Data Analytics Portfolio</div>
+
+      <!-- EDIT: Your main headline -->
+      <h1>Using Data<br />to Drive Actions</h1>
+
+      <!-- EDIT: Your subtitle — describe what connects your projects -->
+      <p>
+        A collection of data analytics projects that transform real-world datasets into
+        interactive tools and evidence-based insights — built to inform decisions in
+        public health, policy, and beyond.
+      </p>
+
+      <a href="#projects" class="hero-cta">
+        🚀 Explore My Projects
+      </a>
+    </div>
+  </header>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 1: PROJECTS & LIVE APPS
+       Who it's for: Non-technical stakeholders
+       What to do: Add one <div class="project-card"> per project.
+                   Copy-paste the block below as many times as needed.
+  ════════════════════════════════════════════════════════ -->
+  <section id="projects">
+    <div class="container">
+      <p class="section-label">Interactive Demos</p>
+      <h2 class="section-title">Projects & Live Apps</h2>
+      <p class="section-subtitle">
+        Click any project below to launch the live app — no installation or account needed.
+      </p>
+
+      <div class="project-grid">
+
+        <!-- ┌─────────────────────────────────────────────────┐
+             │  PROJECT CARD 1                                 │
+             │  EDIT: icon, domain label, title, description,  │
+             │        tags, and the Streamlit URL in href      │
+             └─────────────────────────────────────────────────┘ -->
+        <div class="project-card">
+          <div class="project-icon">🌡️</div>
+          <!-- EDIT: Short domain label e.g. "Climate Health", "Preventive Health", "Finance" -->
+          <div class="project-domain">Climate Health</div>
+          <!-- EDIT: App / project title -->
+          <h3>HeatWatch — Heat-Related Admissions Predictor</h3>
+          <!-- EDIT: 2–3 sentence plain-English description for non-technical readers -->
+          <p>
+            Simulates heat-related hospital admission risk under different climate conditions.
+            Adjust temperature, humidity, and air quality to see projected health impacts
+            for countries across Southeast Asia and beyond.
+          </p>
+          <div class="tag-row">
+            <!-- EDIT: Add or remove tags to describe your tech and topic -->
+            <span class="tag">LightGBM</span>
+            <span class="tag">Hurdle Model</span>
+            <span class="tag">Scenario Modelling</span>
+            <span class="tag">Singapore</span>
+          </div>
+          <!-- EDIT: Replace href with your actual Streamlit app URL -->
+          <a href="https://climatehealthhospital.streamlit.app/" target="_blank" class="btn-launch">
+            ▶ Launch App
+          </a>
+        </div>
+
+        <!-- ┌─────────────────────────────────────────────────┐
+             │  PROJECT CARD 2                                 │
+             │  Copy from PROJECT CARD 1 above and edit.       │
+             │  Delete this block if you only have one app.    │
+             └─────────────────────────────────────────────────┘ -->
+        <div class="project-card">
+          <div class="project-icon">🏥</div>
+          <!-- EDIT -->
+          <div class="project-domain">Preventive Health</div>
+          <!-- EDIT -->
+          <h3>Neighbourhood Health & Wellness Profiler</h3>
+          <!-- EDIT -->
+          <p>
+           This interactive tool empowers any Singaporean with personalized, preventative health insights 
+           based on the unique synergy between their lifestyle and their specific neighbourhood's health and wellness profile.
+          </p>
+          <div class="tag-row">
+            <!-- EDIT -->
+            <span class="tag">Classification</span>
+            <span class="tag">Singapore</span>
+          </div>
+          <!-- EDIT: Replace href with your second app's Streamlit URL -->
+          <a href="https://wellness-town.streamlit.app/" target="_blank" class="btn-launch">
+            ▶ Launch App
+          </a>
+        </div>
+
+        <!-- ┌─────────────────────────────────────────────────┐
+             │  ADD MORE PROJECTS                              │
+             │  Copy the entire project-card block above       │
+             │  and paste it here for each additional project. │
+             └─────────────────────────────────────────────────┘ -->
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 2: ABOUT
+       Who it's for: Everyone — gives context about you
+  ════════════════════════════════════════════════════════ -->
+  <section id="about">
+    <div class="container">
+      <p class="section-label">Background</p>
+      <h2 class="section-title">About Me & This Portfolio</h2>
+
+      <div class="about-inner">
+        <!-- EDIT: Write 2–3 paragraphs about yourself and what connects your projects -->
+        <p>
+          I am a strong believer of the importance of using data to solve real-world problems. I focus on translating complex datasets into
+          clear, actionable tools for decision-makers from various organisations. My prior experience has been in the public health sector.
+        <p>
+          This portfolio brings together independent projects built during my General Assembly
+          Data Analytics programme (2026). Each project addresses a real-world problem using
+          open data, machine learning, and interactive visualisation.
+        </p>
+        <p>
+          <!-- EDIT: Optional — add your LinkedIn, institution, or contact info -->
+          For collaborations or enquiries, connect with me on
+          <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" style="color:#38bdf8;">LinkedIn</a>.
+        </p>
+
+        <!-- EDIT: Add or remove skill tags that represent your toolkit -->
+        <div class="skill-row">
+          <span class="skill-badge">Python</span>
+          <span class="skill-badge">Machine Learning</span>
+          <span class="skill-badge">LightGBM</span>
+          <span class="skill-badge">scikit-learn</span>
+          <span class="skill-badge">Streamlit</span>
+          <span class="skill-badge">Pandas</span>
+          <span class="skill-badge">Plotly</span>
+          <span class="skill-badge">SQL</span>
+          <span class="skill-badge">Public Health Data</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════════════════════
+       SECTION 3: TECHNICAL DEEP DIVE
+       Who it's for: Technical reviewers (data scientists, instructors)
+       What to do: Add one <div class="tech-project-block"> per project,
+                   matching the project cards above.
+                   Each block contains file cards linking to your GitHub files.
+  ════════════════════════════════════════════════════════ -->
+  <section id="technical">
+    <div class="container">
+      <p class="section-label">For Technical Reviewers</p>
+      <h2 class="section-title">Source Code & Notebooks</h2>
+      <p class="section-subtitle">
+        All source files are on GitHub. Notebooks render directly in the browser — no installation needed.
+      </p>
+
+      <!-- ┌─────────────────────────────────────────────────────┐
+           │  TECHNICAL BLOCK — PROJECT 1                        │
+           │  EDIT: Match this to Project Card 1 above           │
+           └─────────────────────────────────────────────────────┘ -->
+      <div class="tech-project-block">
+        <div class="tech-project-header">
+          <span class="icon">🌡️</span>
+          <!-- EDIT: Project name -->
+          <h3>Climate Health — HeatWatch Predictor</h3>
+          <!-- EDIT: Replace href with the URL of the whole GitHub repo for this project -->
+          <a href="https://github.com/isha200909/Heatwatch" target="_blank" class="repo-link">
+            📁 Full Repo →
+          </a>
+        </div>
+
+        <div class="file-grid">
+          
+          <!-- File card — Main app -->
+          <div class="file-card">
+            <div class="file-card-header">
+              <div class="file-icon">🐍</div>
+              <!-- EDIT: Filename -->
+              <h4>heatwatch_app_final_v2.py</h4>
+            </div>
+            <!-- EDIT: One-line description of this file -->
+            <p>Main Streamlit app — UI, LightGBM model loading, prediction logic, Plotly charts.</p>
+            <!-- EDIT: Replace href with the direct GitHub link to this file -->
+            <a href="https://github.com/isha200909/Heatwatch/blob/main/heatwatch_app_final_v2.py"
+               target="_blank" class="btn-code">📄 View on GitHub</a>
+          </div>
+
+          <!-- File card — Notebook -->
+          <div class="file-card">
+            <div class="file-card-header">
+              <div class="file-icon">📓</div>
+              <!-- EDIT: Filename -->
+              <h4>climate_models_v2.ipynb</h4>
+            </div>
+            <!-- EDIT -->
+            <p>Model training notebook — hurdle model, Stage 1 classifier, Stage 2 regressor, temporal split.</p>
+            <!-- EDIT: Replace href with the direct GitHub link to this file -->
+            <a href="https://github.com/isha200909/Heatwatch/blob/main/climate_models_v2.ipynb"
+               target="_blank" class="btn-code">📓 View Notebook</a>
+          </div>
+
+          <!-- File card — requirements -->
+          <div class="file-card">
+            <div class="file-card-header">
+              <div class="file-icon">📦</div>
+              <h4>requirements.txt</h4>
+            </div>
+            <p>Python dependencies. Install with <code style="color:#38bdf8;font-size:0.78rem">pip install -r requirements.txt</code>.</p>
+            <!-- EDIT -->
+            <a href="https://github.com/isha200909/Heatwatch/blob/main/requirements.txt"
+               target="_blank" class="btn-code">📄 View on GitHub</a>
+          </div>
+
+        </div><!-- /file-grid -->
+      </div><!-- /tech-project-block 1 -->
+
+
+      <!-- ┌─────────────────────────────────────────────────────┐
+           │  TECHNICAL BLOCK — PROJECT 2                        │
+           │  Copy the entire tech-project-block above           │
+           │  and edit for your second project.                  │
+           └─────────────────────────────────────────────────────┘ -->
+      <div class="tech-project-block">
+        <div class="tech-project-header">
+          <span class="icon">🏥</span>
+          <!-- EDIT -->
+          <h3>Neighbourhood Health & Wellness Profiler</h3>
+          <!-- EDIT -->
+          <a href="https://github.com/isha200909/WellnessExplorer" target="_blank" class="repo-link">
+            📁 Full Repo →
+          </a>
+        </div>
+
+        <div class="file-grid">
+
+          <div class="file-card">
+            <div class="file-card-header">
+              <div class="file-icon">🐍</div>
+              <!-- EDIT -->
+              <h4>app_v2.py</h4>
+            </div>
+            <!-- EDIT -->
+            <p>Main Streamlit app — UI, KMeans clustering for Town Archetypes, Cosine similarity for Synergy Matching.</p>
+            <!-- EDIT -->
+            <a href="https://github.com/isha200909/WellnessExplorer/blob/main/app_v2.py"
+               target="_blank" class="btn-code">📄 View on GitHub</a>
+          </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════ FOOTER ════════════════════ -->
+  <footer>
+    <div class="container">
+      <!-- EDIT: Your name and links -->
+      <p>
+        Built by <a href="https://github.com/isha200909" target="_blank">Nuriesya</a>
+        &nbsp;·&nbsp; General Assembly Data Science &nbsp;·&nbsp; 2026
+      </p>
+      <p style="margin-top: 8px;">
+        <a href="https://github.com/isha200909" target="_blank">GitHub Profile</a>
+        &nbsp;·&nbsp;
+        <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank">LinkedIn</a>
+        &nbsp;·&nbsp;
+        <a href="#projects">Back to Projects</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
+```
