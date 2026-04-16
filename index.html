@@ -215,6 +215,123 @@
     @media (max-width: 768px) {
       .nav-links { gap: 16px; }
     }
+
+    /* ── Theme Toggle ── */
+    .theme-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: inherit;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      transition: transform 0.2s;
+    }
+    .theme-btn:hover {
+      transform: scale(1.1);
+    }
+
+    /* ── Light Mode Colors ── */
+    body.light-mode {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    body.light-mode nav {
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom-color: rgba(0, 0, 0, 0.06);
+    }
+    body.light-mode .nav-links a { color: #475569; }
+    body.light-mode .nav-links a:hover { color: #0f172a; }
+    body.light-mode .hero {
+      background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 50%, #f1f5f9 100%);
+    }
+    body.light-mode .hero::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(14, 165, 233, 0.12) 0%, transparent 65%);
+    }
+    body.light-mode .hero-badge {
+      background: rgba(14, 165, 233, 0.1);
+      border-color: rgba(14, 165, 233, 0.3);
+      color: #0ea5e9;
+    }
+    body.light-mode .hero h1 {
+      background: linear-gradient(135deg, #0f172a 0%, #0369a1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    body.light-mode .hero p,
+    body.light-mode .section-subtitle,
+    body.light-mode .project-card p,
+    body.light-mode .tech-project-header .repo-link,
+    body.light-mode .file-card p,
+    body.light-mode .about-inner p {
+      color: #475569;
+    }
+    body.light-mode #projects,
+    body.light-mode #about {
+      background: #f8fafc;
+    }
+    body.light-mode #technical {
+      background: #f1f5f9;
+    }
+    body.light-mode .section-title,
+    body.light-mode .project-card h3,
+    body.light-mode .tech-project-header h3,
+    body.light-mode .file-card h4,
+    body.light-mode .about-inner h2 {
+      color: #0f172a;
+    }
+    body.light-mode .project-card {
+      background: #ffffff;
+      border-color: rgba(14, 165, 233, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    body.light-mode .project-card:hover {
+      border-color: rgba(14, 165, 233, 0.4);
+      box-shadow: 0 12px 40px rgba(14, 165, 233, 0.15);
+    }
+    body.light-mode .tag {
+      background: rgba(14, 165, 233, 0.08);
+      color: #0ea5e9;
+      border-color: rgba(14, 165, 233, 0.18);
+    }
+    body.light-mode .tech-project-header {
+      border-bottom-color: rgba(0, 0, 0, 0.06);
+    }
+    body.light-mode .tech-project-header .repo-link {
+      background: rgba(0, 0, 0, 0.04);
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+    body.light-mode .file-card {
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    body.light-mode .file-card:hover {
+      border-color: rgba(14, 165, 233, 0.35);
+    }
+    body.light-mode .file-icon {
+      background: rgba(14, 165, 233, 0.12);
+    }
+    body.light-mode .btn-code {
+      background: rgba(0, 0, 0, 0.04);
+      border-color: rgba(0, 0, 0, 0.1);
+      color: #475569;
+    }
+    body.light-mode .btn-code:hover {
+      background: rgba(0, 0, 0, 0.08);
+      color: #0f172a;
+    }
+    body.light-mode .skill-badge {
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.1);
+      color: #475569;
+    }
+    body.light-mode footer {
+      background: #f1f5f9;
+      border-top-color: rgba(0, 0, 0, 0.06);
+    }
   </style>
 </head>
 
@@ -512,6 +629,30 @@
     </div>
   </footer>
 
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Check for saved theme in localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      body.classList.add('light-mode');
+      themeToggle.textContent = '🌙';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('light-mode');
+      if (body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+        themeToggle.textContent = '🌙'; // Moon for switching back to dark
+        themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+      } else {
+        localStorage.setItem('theme', 'dark');
+        themeToggle.textContent = '☀️'; // Sun for switching to light
+        themeToggle.setAttribute('aria-label', 'Switch to light mode');
+      }
+    });
+  </script>
 </body>
 </html>
 ```
