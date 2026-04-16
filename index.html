@@ -218,18 +218,23 @@
 
     /* ── Theme Toggle ── */
     .theme-btn {
-      background: none;
-      border: none;
+      background: transparent !important;
+      border: none !important;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
       cursor: pointer;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       color: inherit;
-      padding: 0;
+      padding: 4px;
       display: flex;
       align-items: center;
-      transition: transform 0.2s;
+      justify-content: center;
+      transition: transform 0.2s ease;
+      line-height: 1;
     }
     .theme-btn:hover {
-      transform: scale(1.1);
+      transform: scale(1.15);
     }
 
     /* ── Light Mode Colors ── */
@@ -633,8 +638,14 @@
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
 
-    // Check for saved theme in localStorage
-    const savedTheme = localStorage.getItem('theme');
+    // Check for saved theme in localStorage (wrapped in try-catch for local file:// access errors)
+    let savedTheme = null;
+    try {
+      savedTheme = localStorage.getItem('theme');
+    } catch (e) {
+      console.warn("localStorage is not available locally. Theme will reset on refresh.");
+    }
+
     if (savedTheme === 'light') {
       body.classList.add('light-mode');
       themeToggle.textContent = '🌙';
@@ -642,14 +653,21 @@
 
     themeToggle.addEventListener('click', () => {
       body.classList.toggle('light-mode');
-      if (body.classList.contains('light-mode')) {
-        localStorage.setItem('theme', 'light');
+      const isLightMode = body.classList.contains('light-mode');
+      
+      if (isLightMode) {
         themeToggle.textContent = '🌙'; // Moon for switching back to dark
         themeToggle.setAttribute('aria-label', 'Switch to dark mode');
       } else {
-        localStorage.setItem('theme', 'dark');
         themeToggle.textContent = '☀️'; // Sun for switching to light
         themeToggle.setAttribute('aria-label', 'Switch to light mode');
+      }
+
+      // Safely try to save the preference
+      try {
+        localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
+      } catch (e) {
+        // Ignored
       }
     });
   </script>
