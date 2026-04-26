@@ -1,676 +1,1452 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- EDIT: Page title shown in browser tab and Google search results -->
-  <title>Using Data to Drive Actions | Data Analytics Portfolio</title>
-  <meta name="description" content="A data analytics portfolio showcasing interactive apps and analytical models that turn real-world data into actionable insights." />
+  <!-- EDIT: Page title — shown in the browser tab and in Google search results -->
+  <title>Rebecca | Data Analytics Portfolio</title>
+  <meta name="description"
+    content="Portfolio of Rebecca — turning complex problems into clear decisions through data, strategy, and a decade of cross-sector experience." />
 
+  <!-- Fonts: DM Serif Display (headings) + DM Sans (body) — no changes needed -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: #0a0f1e; color: #e2e8f0; line-height: 1.6; }
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-    a { color: inherit; text-decoration: none; }
-
-    /* ── Navigation ── */
-    nav {
-      background: rgba(10,15,30,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding: 16px 0;
-      position: sticky; top: 0; z-index: 100;
+    /* ══════════════════════════════════════════════
+       COLOUR PALETTE
+       Edit these variables to change the whole site
+       colour scheme at once.
+    ══════════════════════════════════════════════ */
+    :root {
+      --bg-page: #faf4ea;
+      /* golden cream — main background */
+      --bg-hero: #f0e2c8;
+      /* warm amber-cream — hero & tab bar */
+      --bg-card: #ffffff;
+      /* white — project cards */
+      --bg-tag: #ead5b0;
+      /* golden sand — skill/tech tag background */
+      --accent: #9b4f2e;
+      /* rich terracotta — buttons, active tab */
+      --accent-light: #bf6e48;
+      /* warm sienna — hover states */
+      --accent-pale: #dfc4a0;
+      /* warm tan — borders */
+      --text-primary: #3a2010;
+      /* deep mahogany — headings */
+      --text-body: #4e3520;
+      /* warm dark brown — body text */
+      --text-muted: #8a6a50;
+      /* warm medium brown — captions, labels */
+      --text-tag: #6b3520;
+      /* rich sienna — text inside tags */
+      --border: #cfb48e;
+      /* golden tan border */
     }
-    nav .container { display: flex; justify-content: space-between; align-items: center; }
-    .nav-brand { font-weight: 700; font-size: 1rem; color: #38bdf8; }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a { font-size: 0.9rem; color: #94a3b8; transition: color 0.2s; }
-    .nav-links a:hover { color: #e2e8f0; }
 
-    /* ── Hero ── */
-    .hero {
-      background: linear-gradient(135deg, #0a0f1e 0%, #0f2040 50%, #0a1628 100%);
-      padding: 100px 0 80px;
+    /* ── Reset & Base ── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-body);
+      line-height: 1.7;
+      min-height: 100vh;
+      /* ── Subtle paper grain texture ──
+         A tiny SVG noise pattern tiled at low opacity gives the
+         flat cream a warm, tactile feel without being distracting.
+         EDIT: Change the opacity value (currently 0.045) to make
+         the texture more visible (higher) or less visible (lower).
+         Safe range: 0.02 – 0.08
+      */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent-light);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ══════════════════════════════════════════════
+       HERO — always visible at the top.
+       Shows the name, tagline, and skill badges.
+       The tab bar lives directly below this.
+    ══════════════════════════════════════════════ */
+    #hero {
+      background: var(--bg-hero);
+      padding: 64px 0 48px;
       text-align: center;
-      position: relative; overflow: hidden;
     }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(56,189,248,0.12) 0%, transparent 65%);
+
+    /* EDIT: Your name */
+    #hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      line-height: 1.15;
     }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(56,189,248,0.1);
-      border: 1px solid rgba(56,189,248,0.28);
-      color: #38bdf8;
+
+    /* EDIT: One-line profile description */
+    #hero .tagline {
+      font-size: 1.05rem;
+      color: var(--text-body);
+      max-width: 620px;
+      margin: 0 auto 28px;
+      font-style: italic;
+    }
+
+    /* ── Key Skills strip ──
+       EDIT: Add, remove, or rename badges in the HTML below.
+       Each badge = <span class="skill-badge">Your Skill</span>
+    */
+    .skills-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .skill-badge {
+      background: var(--bg-tag);
+      color: var(--text-tag);
+      border: 1px solid var(--accent-pale);
       padding: 6px 16px;
       border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
+      font-size: 0.86rem;
+      font-weight: 500;
     }
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.6rem);
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #ffffff 0%, #94d2ff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero p { font-size: 1.1rem; color: #94a3b8; max-width: 620px; margin: 0 auto 40px; }
+
+    /* ── Hero LinkedIn button ──
+       Sits below the skill badges as a soft call-to-action.
+       Uses the terracotta SVG LinkedIn logo — monochromatic,
+       on-brand, no colour clash with the cream palette.
+       EDIT: Update the href in the HTML below with the real LinkedIn URL.
+    */
     .hero-cta {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #0ea5e9, #2563eb);
-      color: white; padding: 14px 32px; border-radius: 10px;
-      font-size: 1rem; font-weight: 600;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 24px rgba(14,165,233,0.3);
+      margin-top: 32px;
     }
-    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(14,165,233,0.45); }
+    .btn-hero-linkedin {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      padding: 12px 32px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-hero-linkedin svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      fill: var(--accent);
+      transition: fill 0.2s;
+    }
+    .btn-hero-linkedin:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(155, 79, 46, 0.25);
+    }
+    .btn-hero-linkedin:hover svg { fill: #fff; }
 
-    /* ── Sections ── */
-    section { padding: 80px 0; }
-    .section-label {
-      text-align: center; font-size: 0.78rem; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: #38bdf8; margin-bottom: 12px;
-    }
-    .section-title {
-      text-align: center;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 700; color: #f1f5f9; margin-bottom: 12px;
-    }
-    .section-subtitle {
-      text-align: center; color: #64748b; font-size: 1rem;
-      max-width: 560px; margin: 0 auto 52px;
-    }
-
-    /* ── Project Cards (non-technical) ── */
-    #projects { background: #0a0f1e; }
-    .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px; }
-    .project-card {
-      background: linear-gradient(145deg, #0f1c35, #0a1628);
-      border: 1px solid rgba(56,189,248,0.15);
-      border-radius: 16px;
-      padding: 32px;
-      display: flex; flex-direction: column;
-      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-    }
-    .project-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(56,189,248,0.4);
-      box-shadow: 0 12px 40px rgba(56,189,248,0.1);
-    }
-    .project-icon { font-size: 2.4rem; margin-bottom: 16px; }
-    .project-domain {
-      font-size: 0.72rem; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: #38bdf8; margin-bottom: 8px;
-    }
-    .project-card h3 { font-size: 1.2rem; font-weight: 700; color: #f1f5f9; margin-bottom: 10px; }
-    .project-card p { font-size: 0.92rem; color: #64748b; flex-grow: 1; margin-bottom: 24px; }
-    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
-    .tag {
-      display: inline-block;
-      background: rgba(56,189,248,0.08);
-      color: #38bdf8;
-      border: 1px solid rgba(56,189,248,0.18);
-      font-size: 0.7rem; font-weight: 600;
-      padding: 3px 10px; border-radius: 20px;
-    }
-    .btn-launch {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      background: linear-gradient(135deg, #0ea5e9, #2563eb);
-      color: white; padding: 12px 24px; border-radius: 8px;
-      font-size: 0.9rem; font-weight: 600;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .btn-launch:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(14,165,233,0.35); }
-
-    /* ── Technical deep-dive section ── */
-    #technical { background: #080d1a; }
-    .tech-project-block { margin-bottom: 56px; }
-    .tech-project-block:last-child { margin-bottom: 0; }
-    .tech-project-header {
-      display: flex; align-items: center; gap: 14px;
-      margin-bottom: 20px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .tech-project-header .icon { font-size: 1.6rem; }
-    .tech-project-header h3 { font-size: 1.1rem; font-weight: 700; color: #e2e8f0; }
-    .tech-project-header .repo-link {
-      margin-left: auto;
-      font-size: 0.8rem; color: #475569;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 5px 12px; border-radius: 6px;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .tech-project-header .repo-link:hover { color: #94a3b8; border-color: rgba(255,255,255,0.18); }
-    .file-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-    .file-card {
-      background: #0f1c35;
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px; padding: 20px;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .file-card:hover { border-color: rgba(100,116,139,0.35); transform: translateY(-2px); }
-    .file-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-    .file-icon {
-      width: 32px; height: 32px;
-      background: rgba(100,116,139,0.12);
-      border-radius: 7px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-    }
-    .file-card h4 { font-size: 0.88rem; font-weight: 600; color: #cbd5e1; }
-    .file-card p { font-size: 0.8rem; color: #475569; margin-bottom: 14px; }
-    .btn-code {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(100,116,139,0.1);
-      border: 1px solid rgba(100,116,139,0.22);
-      color: #94a3b8; padding: 7px 14px; border-radius: 6px;
-      font-size: 0.8rem; font-weight: 500;
-      transition: background 0.2s, color 0.2s;
-    }
-    .btn-code:hover { background: rgba(100,116,139,0.22); color: #e2e8f0; }
-
-    /* ── About ── */
-    #about { background: #0a0f1e; }
-    .about-inner {
-      max-width: 720px; margin: 0 auto; text-align: center;
-    }
-    .about-inner h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; color: #f1f5f9; }
-    .about-inner p { color: #64748b; font-size: 0.95rem; margin-bottom: 14px; }
-    .skill-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 32px; }
-    .skill-badge {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #94a3b8;
-      padding: 6px 14px; border-radius: 6px;
-      font-size: 0.82rem; font-weight: 500;
+    /* ══════════════════════════════════════════════
+       TAB BAR — sticky, sits directly below the hero.
+       Clicking a tab shows that panel and hides all others.
+       On first load no tab is active — only the hero shows.
+    ══════════════════════════════════════════════ */
+    #tab-bar {
+      background: var(--bg-hero);
+      border-top: 1px solid var(--border);
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    /* ── Footer ── */
-    footer {
-      background: #080d1a;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 40px 0; text-align: center;
-      color: #475569; font-size: 0.85rem;
-    }
-    footer a { color: #38bdf8; transition: opacity 0.2s; }
-    footer a:hover { opacity: 0.75; }
-
-    @media (max-width: 768px) {
-      .nav-links { gap: 16px; }
-    }
-
-    /* ── Theme Toggle ── */
-    .theme-btn {
-      background: transparent !important;
-      border: none !important;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      cursor: pointer;
-      font-size: 1.25rem;
-      color: inherit;
-      padding: 4px;
+    #tab-bar .container {
       display: flex;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      padding: 10px 26px;
+      margin: 12px 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-body);
+      background: transparent;
+      border: 2px solid var(--accent-pale);
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .tab-btn:hover {
+      background: var(--accent-pale);
+      color: var(--text-primary);
+      border-color: var(--accent-light);
+      box-shadow: 0 2px 8px rgba(122, 92, 56, 0.12);
+    }
+
+    /* Active tab: filled rectangle */
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 3px 10px rgba(122, 92, 56, 0.22);
+    }
+
+    @media (max-width: 540px) {
+      .tab-btn {
+        padding: 8px 12px;
+        font-size: 0.78rem;
+        margin: 8px 3px;
+      }
+    }
+
+    /* ── Close button — appears when any tab is active ──
+       Sits to the right of the tab buttons.
+       Hidden by default; JS toggles .visible on/off.
+    */
+    #tab-close {
+      display: none;           /* hidden until a tab is open */
       align-items: center;
       justify-content: center;
-      transition: transform 0.2s ease;
+      margin: 12px 0 12px 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent-pale);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 1rem;
       line-height: 1;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
-    .theme-btn:hover {
-      transform: scale(1.15);
+    #tab-close.visible { display: flex; }
+    #tab-close:hover {
+      background: var(--accent-pale);
+      color: var(--text-primary);
+      border-color: var(--accent-light);
     }
 
-    /* ── Light Mode Colors ── */
-    body.light-mode {
-      background: #f8fafc;
-      color: #0f172a;
+    /* ══════════════════════════════════════════════
+       TAB PANELS
+       All hidden by default (display: none).
+       JS adds .active to show the selected one.
+    ══════════════════════════════════════════════ */
+    .tab-panel {
+      display: none;
+      padding: 60px 0;
     }
-    body.light-mode nav {
-      background: rgba(255, 255, 255, 0.92);
-      border-bottom-color: rgba(0, 0, 0, 0.06);
+
+    .tab-panel.active {
+      display: block;
     }
-    body.light-mode .nav-links a { color: #475569; }
-    body.light-mode .nav-links a:hover { color: #0f172a; }
-    body.light-mode .hero {
-      background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 50%, #f1f5f9 100%);
+
+    /* ── Shared section label / title / intro ── */
+    .section-label {
+      font-size: 0.756rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
     }
-    body.light-mode .hero::before {
-      background: radial-gradient(ellipse at 50% 0%, rgba(14, 165, 233, 0.12) 0%, transparent 65%);
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.785rem, 3.15vw, 2.31rem);
+      color: var(--text-primary);
+      margin-bottom: 12px;
     }
-    body.light-mode .hero-badge {
-      background: rgba(14, 165, 233, 0.1);
-      border-color: rgba(14, 165, 233, 0.3);
-      color: #0ea5e9;
+
+    .section-intro {
+      color: var(--text-body);
+      font-size: 1.02rem;
+      max-width: 600px;
+      margin-bottom: 48px;
     }
-    body.light-mode .hero h1 {
-      background: linear-gradient(135deg, #0f172a 0%, #0369a1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+
+    /* ══════════════════════════════════════════════
+       INTRO PANEL
+       Two-column grid: photo left, text right.
+       Stacks to one column on mobile.
+    ══════════════════════════════════════════════ */
+    .intro-inner {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 52px;
+      align-items: start;
     }
-    body.light-mode .hero p,
-    body.light-mode .section-subtitle,
-    body.light-mode .project-card p,
-    body.light-mode .tech-project-header .repo-link,
-    body.light-mode .file-card p,
-    body.light-mode .about-inner p {
-      color: #475569;
+
+    @media (max-width: 640px) {
+      .intro-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .intro-photo {
+        margin: 0 auto;
+      }
     }
-    body.light-mode #projects,
-    body.light-mode #about {
-      background: #f8fafc;
+
+    .intro-photo {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid var(--accent-pale);
+      flex-shrink: 0;
     }
-    body.light-mode #technical {
-      background: #f1f5f9;
+
+    /*
+      EDIT: Replace "images/profile.jpg" with your actual photo filename.
+      Create an "images/" folder next to this index.html file and place
+      your photo inside it.
+      Example: src="images/rebecca.jpg"
+    */
+    .intro-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
     }
-    body.light-mode .section-title,
-    body.light-mode .project-card h3,
-    body.light-mode .tech-project-header h3,
-    body.light-mode .file-card h4,
-    body.light-mode .about-inner h2 {
-      color: #0f172a;
+
+    .intro-text h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.785rem;
+      color: var(--text-primary);
+      margin-bottom: 20px;
     }
-    body.light-mode .project-card {
-      background: #ffffff;
-      border-color: rgba(14, 165, 233, 0.15);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .intro-text p {
+      color: var(--text-body);
+      font-size: 1.02rem;
+      margin-bottom: 16px;
     }
-    body.light-mode .project-card:hover {
-      border-color: rgba(14, 165, 233, 0.4);
-      box-shadow: 0 12px 40px rgba(14, 165, 233, 0.15);
+
+    /* Reusable button styles */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
     }
-    body.light-mode .tag {
-      background: rgba(14, 165, 233, 0.08);
-      color: #0ea5e9;
-      border-color: rgba(14, 165, 233, 0.18);
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.924rem;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.2s;
     }
-    body.light-mode .tech-project-header {
-      border-bottom-color: rgba(0, 0, 0, 0.06);
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+      color: #fff;
+      transform: translateY(-2px);
     }
-    body.light-mode .tech-project-header .repo-link {
-      background: rgba(0, 0, 0, 0.04);
-      border-color: rgba(0, 0, 0, 0.08);
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.924rem;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
     }
-    body.light-mode .file-card {
-      background: #ffffff;
-      border-color: rgba(0, 0, 0, 0.08);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+    .btn-outline:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
     }
-    body.light-mode .file-card:hover {
-      border-color: rgba(14, 165, 233, 0.35);
+
+    /* ══════════════════════════════════════════════
+       PROJECTS PANEL
+       One card per project, stacked full-width.
+       TO ADD A PROJECT: copy one .project-card block
+       and paste it after the last one.
+    ══════════════════════════════════════════════ */
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 36px;
+      margin-bottom: 32px;
+      transition: box-shadow 0.25s, transform 0.25s;
     }
-    body.light-mode .file-icon {
-      background: rgba(14, 165, 233, 0.12);
+
+    .project-card:last-child {
+      margin-bottom: 0;
     }
-    body.light-mode .btn-code {
-      background: rgba(0, 0, 0, 0.04);
-      border-color: rgba(0, 0, 0, 0.1);
-      color: #475569;
+
+    .project-card:hover {
+      box-shadow: 0 8px 32px rgba(74, 124, 89, 0.12);
+      transform: translateY(-3px);
     }
-    body.light-mode .btn-code:hover {
-      background: rgba(0, 0, 0, 0.08);
-      color: #0f172a;
+
+    .project-domain {
+      font-size: 0.756rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
     }
-    body.light-mode .skill-badge {
-      background: #ffffff;
-      border-color: rgba(0, 0, 0, 0.1);
-      color: #475569;
+
+    .project-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.418rem;
+      color: var(--text-primary);
+      margin-bottom: 12px;
     }
-    body.light-mode footer {
-      background: #f1f5f9;
-      border-top-color: rgba(0, 0, 0, 0.06);
+
+    .project-desc {
+      color: var(--text-body);
+      font-size: 0.998rem;
+      margin-bottom: 20px;
+    }
+
+    /* Tech tag strip */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 24px;
+    }
+
+    .tag {
+      background: var(--bg-tag);
+      color: var(--text-tag);
+      border: 1px solid var(--accent-pale);
+      padding: 4px 12px;
+      border-radius: 14px;
+      font-size: 0.83rem;
+      font-weight: 500;
+    }
+
+    /*
+      Project images — place files in an "images/" folder.
+      EDIT: Replace src="" values with actual filenames.
+      Images display as equal-height thumbnails side by side.
+      Clicking any image opens it full-screen in a lightbox.
+      Remove a second <img> tag if you only have one screenshot.
+    */
+    .project-images {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      align-items: flex-start;
+    }
+
+    /* Each thumbnail wrapper — fixed height so all cards stay consistent */
+    .project-images .thumb {
+      flex: 1;
+      min-width: 0;           /* prevents flex children overflowing */
+      height: 200px;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+      position: relative;
+    }
+
+    /* Single-image projects go full width */
+    .project-images .thumb:only-child {
+      flex: 1 1 100%;
+      height: 260px;          /* taller when there's only one image */
+    }
+
+    .project-images .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    /* Subtle zoom + dim on hover to signal "clickable" */
+    .project-images .thumb:hover img {
+      transform: scale(1.04);
+      filter: brightness(0.88);
+    }
+
+    /* Magnifier icon overlay on hover */
+    .project-images .thumb::after {
+      content: '⤢';
+      position: absolute;
+      bottom: 8px; right: 10px;
+      font-size: 1.1rem;
+      color: #fff;
+      background: rgba(0,0,0,0.45);
+      border-radius: 4px;
+      padding: 2px 6px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    .project-images .thumb:hover::after { opacity: 1; }
+
+    /* ══════════════════════════════════════════════
+       LIGHTBOX OVERLAY
+       Clicking a thumbnail opens a full-screen overlay.
+       JS adds/removes the .open class.
+       No edits needed here.
+    ══════════════════════════════════════════════ */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.88);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+    #lightbox.open { display: flex; }
+
+    #lightbox img {
+      max-width: 92vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      cursor: default;
+    }
+
+    /* Close button top-right */
+    #lightbox-close {
+      position: fixed;
+      top: 18px; right: 24px;
+      font-size: 2rem;
+      color: #fff;
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    #lightbox-close:hover { opacity: 1; }
+
+    /* Prev / Next arrows */
+    #lightbox-prev,
+    #lightbox-next {
+      position: fixed;
+      top: 50%; transform: translateY(-50%);
+      font-size: 2rem;
+      color: #fff;
+      background: rgba(0,0,0,0.35);
+      border: none;
+      cursor: pointer;
+      padding: 12px 18px;
+      border-radius: 6px;
+      opacity: 0.75;
+      transition: opacity 0.2s, background 0.2s;
+    }
+    #lightbox-prev { left: 16px; }
+    #lightbox-next { right: 16px; }
+    #lightbox-prev:hover,
+    #lightbox-next:hover { opacity: 1; background: rgba(0,0,0,0.6); }
+    /* Hide arrows when only one image in the set */
+    #lightbox-prev.hidden,
+    #lightbox-next.hidden { display: none; }
+
+    .project-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn-launch {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.924rem;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-launch:hover {
+      background: var(--accent-light);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.924rem;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Small italic disclaimer e.g. team project note */
+    .project-note {
+      font-size: 0.861rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 14px;
+    }
+
+    /* ══════════════════════════════════════════════
+       GITHUB REPO PANEL
+       One row per project.
+    ══════════════════════════════════════════════ */
+    .repo-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .repo-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .repo-block:hover {
+      box-shadow: 0 6px 24px rgba(74, 124, 89, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* EDIT: Tool badge text e.g. Python / Tableau / Power BI */
+    .repo-tool {
+      min-width: 76px;
+      text-align: center;
+      background: var(--bg-tag);
+      color: var(--text-tag);
+      border: 1px solid var(--accent-pale);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.798rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .repo-info {
+      flex: 1;
+    }
+
+    .repo-domain {
+      font-size: 0.735rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+
+    .repo-info h4 {
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .btn-repo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 0.882rem;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn-repo:hover {
+      background: var(--accent-light);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 540px) {
+      .repo-block {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* ══════════════════════════════════════════════
+       CONTACT PANEL
+    ══════════════════════════════════════════════ */
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 56px 40px;
+      max-width: 520px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-card h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.89rem;
+      color: var(--text-primary);
+      margin-bottom: 14px;
+    }
+
+    .contact-card p {
+      color: var(--text-muted);
+      font-size: 0.998rem;
+      margin-bottom: 36px;
+    }
+
+    .contact-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .contact-btns a {
+      min-width: 240px;
+      justify-content: center;
+    }
+
+    @media (max-width: 540px) {
+      .contact-card {
+        padding: 36px 20px;
+      }
+    }
+
+    /* ══════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════ */
+    footer {
+      background: var(--bg-hero);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 24px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--accent);
+    }
+
+    footer a:hover {
+      color: var(--accent-light);
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ════════════════════ NAVIGATION ════════════════════ -->
-  <nav>
+  <!-- ════════════════════════════════════════════════════════
+       HERO — always visible.
+       Contains name, tagline, and skill badges.
+       The tab bar sits directly below this.
+  ════════════════════════════════════════════════════════ -->
+  <section id="hero">
     <div class="container">
-      <!-- EDIT: Your portfolio name -->
-      <span class="nav-brand">📊 Using Data to Drive Actions</span>
-      <div class="nav-links">
-        <a href="#projects">Projects</a>
-        <a href="#about">About</a>
-        <a href="#technical">Code</a>
-        <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark/light mode">☀️</button>
-      </div>
-    </div>
-  </nav>
 
-  <!-- ════════════════════ HERO ════════════════════ -->
-  <header class="hero">
-    <div class="container">
-      <!-- EDIT: The small label above your headline (e.g. your programme, institution) -->
-      <div class="hero-badge">Data Analytics Portfolio</div>
+      <!-- EDIT: Your name -->
+      <h1>Rebecca</h1>
 
-      <!-- EDIT: Your main headline -->
-      <h1>Using Data<br />to Drive Actions</h1>
-
-      <!-- EDIT: Your subtitle — describe what connects your projects -->
-      <p>
-        A collection of data analytics projects that transform real-world datasets into
-        interactive tools and evidence-based insights — built to inform decisions in
-        public health, policy, and beyond.
+      <!-- EDIT: One-line profile description -->
+      <p class="tagline">
+        I turn complex problems into clear decisions — through data, strategy,
+        and a decade of cross-sector experience.
       </p>
 
-      <a href="#projects" class="hero-cta">
-        🚀 Explore My Projects
-      </a>
+      <!-- ── Key Skills strip ──
+           EDIT: Add, remove, or rename skill badges.
+           Each badge = <span class="skill-badge">Skill Name</span>
+      -->
+      <div class="skills-strip">
+        <span class="skill-badge">Project Management</span>
+        <span class="skill-badge">Data Analytics &amp; Visualisation</span>
+        <span class="skill-badge">Predictive Modelling</span>
+        <span class="skill-badge">Data Storytelling</span>
+        <span class="skill-badge">Stakeholder Management</span>
+        <span class="skill-badge">Team Leadership</span>
+      </div>
+
+      <!-- ── Hero LinkedIn button ──
+           EDIT: Replace href with your actual LinkedIn profile URL.
+      -->
+      <div class="hero-cta">
+        <a href="https://www.linkedin.com/in/your-profile" target="_blank" class="btn-hero-linkedin">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+          Connect on LinkedIn
+        </a>
+      </div>
+
     </div>
-  </header>
+  </section>
 
 
   <!-- ════════════════════════════════════════════════════════
-       SECTION 1: PROJECTS & LIVE APPS
-       Who it's for: Non-technical stakeholders
-       What to do: Add one <div class="project-card"> per project.
-                   Copy-paste the block below as many times as needed.
+       TAB BAR — sticky, directly below the hero.
+       On first load, NO tab is active — only the hero shows.
+       Clicking a tab reveals that section's content below.
+       No edits needed unless you rename a tab.
   ════════════════════════════════════════════════════════ -->
-  <section id="projects">
+  <div id="tab-bar">
     <div class="container">
-      <p class="section-label">Interactive Demos</p>
-      <h2 class="section-title">Projects & Live Apps</h2>
-      <p class="section-subtitle">
-        Click any project below to launch the live app — no installation or account needed.
-      </p>
+      <button class="tab-btn" data-tab="intro">Intro</button>
+      <button class="tab-btn" data-tab="projects">Projects</button>
+      <button class="tab-btn" data-tab="github">GitHub Repo</button>
+      <button class="tab-btn" data-tab="contact">Contact</button>
+      <!-- Close button — returns visitor to the hero-only view. No edits needed. -->
+      <button id="tab-close" aria-label="Close panel and return to overview" title="Back to overview">&#10005;</button>
+    </div>
+  </div>
 
-      <div class="project-grid">
 
-        <!-- ┌─────────────────────────────────────────────────┐
-             │  PROJECT CARD 1                                 │
-             │  EDIT: icon, domain label, title, description,  │
-             │        tags, and the Streamlit URL in href      │
-             └─────────────────────────────────────────────────┘ -->
+  <!-- ════════════════════════════════════════════════════════
+       MAIN CONTENT — All tab panels live here.
+       Only the active panel (set by JS) is visible.
+  ════════════════════════════════════════════════════════ -->
+  <main>
+
+    <!-- ══════════════════════════════════════════
+         INTRO PANEL
+         Two-column layout: photo left, text right.
+         Stacks vertically on mobile screens.
+    ══════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-intro">
+      <div class="container">
+        <div class="intro-inner">
+
+          <!-- ── Profile photo ──
+               EDIT: Replace "images/profile.jpg" with your photo's filename.
+               Put the photo file inside an "images/" folder next to index.html.
+               Example: if your file is "rebecca.jpg" → src="images/rebecca.jpg"
+          -->
+          <div class="intro-photo">
+            <img src="images/profile.jpg" alt="Profile photo of Rebecca" />
+          </div>
+
+          <!-- ── Intro write-up ──
+               EDIT: Update any paragraph below.
+               Keep each <p> tag for a new paragraph.
+          -->
+          <div class="intro-text">
+            <h2>Hello, I'm Rebecca.</h2>
+
+            <p>
+              I've spent over a decade working at the intersection of healthcare, operations,
+              and policy — building teams, managing programmes, and turning messy,
+              multi-stakeholder problems into something workable. My background spans hospital
+              operations, health policy consulting, business development, and research, across
+              Singapore, the US, and the broader Asia-Pacific region.
+            </p>
+            <p>
+              More recently, I completed an AI-native Data Analytics Bootcamp at General
+              Assembly, where I built end-to-end data projects spanning machine learning,
+              predictive modelling, data visualisation, and app deployment. This portfolio
+              showcases that work.
+            </p>
+            <p>
+              The projects here reflect problems I care about — from climate and public health,
+              to how Singaporeans find homes, to what the pandemic can teach us about the next
+              one. My aim is always the same: take something complex, make sense of it, and
+              present it in a way that actually helps someone decide or act.
+            </p>
+            <p>
+              If something here resonates, I'd love to connect.
+            </p>
+
+            <!-- EDIT: Replace href values with your actual LinkedIn URL and email -->
+            <div class="btn-row">
+              <a href="www.linkedin.rebecca.com" target="_blank" class="btn-primary">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:16px;height:16px;fill:#fff;flex-shrink:0;">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                LinkedIn
+              </a>
+              <a href="mailto:rebeccadawson@wellesley.com" class="btn-outline">
+                &#9993; Get in Touch
+              </a>
+            </div>
+
+          </div><!-- /intro-text -->
+        </div><!-- /intro-inner -->
+      </div>
+    </div><!-- /panel-intro -->
+
+
+    <!-- ══════════════════════════════════════════
+         PROJECTS PANEL
+         One .project-card per project.
+         TO ADD A NEW PROJECT:
+           1. Copy one entire <div class="project-card">...</div> block
+           2. Paste it below the last project card
+           3. Edit its content (domain, title, description, tags, images, buttons)
+    ══════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-projects">
+      <div class="container">
+        <p class="section-label"></p>
+        <h2 class="section-title">Projects</h2>
+        <p class="section-intro">
+          Explore live apps, interactive dashboards, and data analyses — each tackling a real-world problem through a different lens.
+        </p>
+
+
+        <!-- ┌─────────────────────────────────────────────
+             │  PROJECT 1 — HeatWatch
+             └───────────────────────────────────────── -->
         <div class="project-card">
-          <div class="project-icon">🌡️</div>
-          <!-- EDIT: Short domain label e.g. "Climate Health", "Preventive Health", "Finance" -->
-          <div class="project-domain">Climate Health</div>
-          <!-- EDIT: App / project title -->
+
+          <!-- EDIT: Domain label -->
+          <p class="project-domain">Climate Health</p>
+          <!-- EDIT: Project title -->
           <h3>HeatWatch — Heat-Related Admissions Predictor</h3>
-          <!-- EDIT: 2–3 sentence plain-English description for non-technical readers -->
-          <p>
+          <!-- EDIT: Short description (1–3 sentences) -->
+          <p class="project-desc">
             Simulates heat-related hospital admission risk under different climate conditions.
-            Adjust temperature, humidity, and air quality to see projected health impacts
-            for countries across Southeast Asia and beyond.
+            Adjust climate variables (e.g. temperature, humidity, and air quality), and
+            socio-economic factors to see projected health impacts for countries across
+            different continents.
           </p>
+          <!-- EDIT: Tech tags — add or remove <span class="tag"> items -->
           <div class="tag-row">
-            <!-- EDIT: Add or remove tags to describe your tech and topic -->
+            <span class="tag">Python</span>
+            <span class="tag">Streamlit</span>
             <span class="tag">LightGBM</span>
-            <span class="tag">Hurdle Model</span>
-            <span class="tag">Scenario Modelling</span>
-            <span class="tag">Singapore</span>
+            <span class="tag">Two-Stage Hurdle Modeling</span>
+            <span class="tag">KMeans Clustering</span>
+            <span class="tag">Spatiotemporal Data Integration</span>
+            <span class="tag">Feature Engineering</span>
+            <span class="tag">API Data Ingestion</span>
+            <span class="tag">Model Evaluation</span>
           </div>
-          <!-- EDIT: Replace href with your actual Streamlit app URL -->
-          <a href="https://climatehealthhospital.streamlit.app/" target="_blank" class="btn-launch">
-            ▶ Launch App
-          </a>
-        </div>
+          <!--
+            EDIT: Replace src="" values with your actual image filenames.
+            Place image files in the "images/" folder next to this file.
+            Example: src="images/heatwatch_map.png"
+            Remove the second <img> tag if you only have one screenshot.
+          -->
+          <div class="project-images">
+            <div class="thumb"><img src="images/heatwatch_1.png" alt="HeatWatch country risk tier map" /></div>
+            <div class="thumb"><img src="images/heatwatch_2.png" alt="HeatWatch admission predictor output" /></div>
+          </div>
+          <!-- EDIT: Replace href with the live app URL -->
+          <div class="project-btns">
+            <a href="https://climateheathealth.streamlit.app/" target="_blank" class="btn-launch">
+              &#9654; Launch App
+            </a>
+          </div>
 
-        <!-- ┌─────────────────────────────────────────────────┐
-             │  PROJECT CARD 2                                 │
-             │  Copy from PROJECT CARD 1 above and edit.       │
-             │  Delete this block if you only have one app.    │
-             └─────────────────────────────────────────────────┘ -->
+        </div><!-- /project 1 -->
+
+
+        <!-- ┌─────────────────────────────────────────────
+             │  PROJECT 2 — Neighbourhood Health & Wellness Profiler
+             └───────────────────────────────────────── -->
         <div class="project-card">
-          <div class="project-icon">🏥</div>
-          <!-- EDIT -->
-          <div class="project-domain">Preventive Health</div>
-          <!-- EDIT -->
-          <h3>Neighbourhood Health & Wellness Profiler</h3>
-          <!-- EDIT -->
-          <p>
-           This interactive tool empowers any Singaporean with personalized, preventative health insights 
-           based on the unique synergy between their lifestyle and their specific neighbourhood's health and wellness profile.
+
+          <p class="project-domain">Preventive Health</p>
+          <h3>Neighbourhood Health &amp; Wellness Profiler</h3>
+          <p class="project-desc">
+            This interactive tool empowers any Singaporean with personalised, preventative
+            health insights based on the unique synergy between their lifestyle and their
+            specific neighbourhood's health and wellness profile.
           </p>
           <div class="tag-row">
-            <!-- EDIT -->
-            <span class="tag">Classification</span>
-            <span class="tag">Singapore</span>
+            <span class="tag">Python</span>
+            <span class="tag">Streamlit</span>
+            <span class="tag">Plotly</span>
+            <span class="tag">Interactive Maps (Geospatial Analytics)</span>
+            <span class="tag">Feature Engineering</span>
+            <span class="tag">K-Means Clustering</span>
+            <span class="tag">Cosine Similarity Matching</span>
           </div>
-          <!-- EDIT: Replace href with your second app's Streamlit URL -->
-          <a href="https://wellness-town.streamlit.app/" target="_blank" class="btn-launch">
-            ▶ Launch App
+          <!-- EDIT: Replace image filenames -->
+          <div class="project-images">
+            <div class="thumb"><img src="images/wellness_1.png" alt="Wellness Profiler — synergy score view" /></div>
+            <div class="thumb"><img src="images/wellness_2.png" alt="Wellness Profiler — neighbourhood landscape map" /></div>
+          </div>
+          <div class="project-btns">
+            <a href="https://wellness-town.streamlit.app/" target="_blank" class="btn-launch">
+              &#9654; Launch App
+            </a>
+          </div>
+
+        </div><!-- /project 2 -->
+
+
+        <!-- ┌─────────────────────────────────────────────
+             │  PROJECT 3 — HDB Pricing Estimator
+             └───────────────────────────────────────── -->
+        <div class="project-card">
+
+          <p class="project-domain">Real Estate</p>
+          <h3>HDB Pricing Estimator &amp; Town Recommender</h3>
+          <p class="project-desc">
+            Deciding on the right town and the right HDB flat can be daunting for first-time
+            buyers. This app helps home buyers make smarter decisions by predicting fair
+            resale prices and recommending the best towns for their lifestyle.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Python</span>
+            <span class="tag">Tableau</span>
+            <span class="tag">Machine Learning</span>
+            <span class="tag">Regression and Classification Modelling</span>
+            <span class="tag">Town Recommendation System</span>
+            <span class="tag">Feature Engineering</span>
+            <span class="tag">Model Evaluation</span>
+            <span class="tag">Web App Development</span>
+          </div>
+          <!-- EDIT: Replace image filenames -->
+          <div class="project-images">
+            <div class="thumb"><img src="images/hdb_1.png" alt="HDB Worth-O-Meter price estimator" /></div>
+            <div class="thumb"><img src="images/hdb_2.png" alt="HDB What-Town-Next recommender" /></div>
+          </div>
+          <div class="project-btns">
+            <a href="https://hdb-predictor-recommender-qiej.onrender.com/recommender" target="_blank"
+              class="btn-launch">
+              &#9654; Launch App
+            </a>
+          </div>
+          <!-- EDIT: Remove this note if the project was solo work -->
+          <p class="project-note">
+            &#128203; Team project from the DAB-10 class at General Assembly.
+            Individual contributions are detailed in the GitHub Repo.
+          </p>
+
+        </div><!-- /project 3 -->
+
+
+        <!-- ┌─────────────────────────────────────────────
+             │  PROJECT 4 — COVID-19 / Disease X
+             └───────────────────────────────────────── -->
+        <div class="project-card">
+
+          <p class="project-domain">Pandemic Preparedness</p>
+          <h3>COVID-19 Learnings for Disease X Preparation</h3>
+          <p class="project-desc">
+            Normalcy has returned since the COVID-19 isolation years, but future pandemics
+            will occur again. This Tableau dashboard analyses what happened globally during
+            the pandemic years to glean learnings for how the world can be more prepared for
+            future pandemics, such as Disease X — a hypothetical high-threat pathogen coined
+            by the WHO.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Excel</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Tableau</span>
+            <span class="tag">Data Cleaning</span>
+            <span class="tag">Data Visualisation</span>
+            <span class="tag">Data Storytelling</span>
+            <span class="tag">Canva</span>
+          </div>
+          <!-- EDIT: Replace image filename -->
+          <div class="project-images">
+            <div class="thumb"><img src="images/covid_1.png" alt="COVID-19 global deaths Tableau dashboard" /></div>
+          </div>
+          <!-- This project has TWO buttons. EDIT: Update URLs if they change. -->
+          <div class="project-btns">
+            <a href="https://public.tableau.com/app/profile/analyticsish/viz/Covid19Analysis_DiseaseX/Story1?publish=yes"
+              target="_blank" class="btn-secondary">
+              &#128202; Tableau Dashboard
+            </a>
+            <a href="https://canva.link/vtu8t2dlfh8na0w" target="_blank" class="btn-secondary">
+              &#127891; Canva Slides
+            </a>
+          </div>
+
+        </div><!-- /project 4 -->
+
+
+        <!-- ┌─────────────────────────────────────────────
+             │  PROJECT 5 — Global Food Distribution
+             └───────────────────────────────────────── -->
+        <div class="project-card">
+
+          <p class="project-domain">Market Analysis</p>
+          <h3>Global Food Distribution</h3>
+          <p class="project-desc">
+            An analysis of synthetic sales data from 2012 to 2014 to derive insights related
+            to the client's food products, sales, and marketing.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Excel</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Data Cleaning</span>
+            <span class="tag">Power BI</span>
+            <span class="tag">DAX Functions</span>
+            <span class="tag">Data Modelling</span>
+            <span class="tag">Data Visualisation</span>
+          </div>
+          <!-- EDIT: Replace image filenames -->
+          <div class="project-images">
+            <div class="thumb"><img src="images/food_1.png" alt="Global Food Distribution — Europe sales map" /></div>
+            <div class="thumb"><img src="images/food_2.png" alt="Global Food Distribution — product treemap" /></div>
+          </div>
+          <!-- No live app for this project — links to GitHub instead -->
+          <div class="project-btns">
+            <a href="https://github.com/isha200909/Market_Analysis" target="_blank" class="btn-secondary">
+              &#128196; View on GitHub
+            </a>
+          </div>
+          <!-- EDIT: Remove this note if not needed -->
+          <p class="project-note">
+            &#128203; Power BI file can be found in the GitHub repo.
+          </p>
+        </div><!-- /project 5 -->
+
+      </div>
+    </div><!-- /panel-projects -->
+
+
+    <!-- ══════════════════════════════════════════
+         GITHUB REPO PANEL
+         One row per project.
+         EDIT each block:
+           - repo-tool badge text (Python / Tableau / Power BI etc.)
+           - repo-domain label
+           - project name in <h4>
+           - href of the View Repo button
+    ══════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-github">
+      <div class="container">
+        <p class="section-label">Source Code</p>
+        <h2 class="section-title">GitHub Repositories</h2>
+        <p class="section-intro">
+          All source files, notebooks, and data pipelines are on GitHub.
+          Notebooks render directly in the browser — no installation needed.
+        </p>
+
+        <!-- ┌───── REPO BLOCK 1 ───── -->
+        <div class="repo-block">
+          <!-- EDIT: Primary tool / language used -->
+          <span class="repo-tool">Python</span>
+          <div class="repo-info">
+            <p class="repo-domain">Climate Health</p>
+            <h4>HeatWatch — Heat-Related Admissions Predictor</h4>
+          </div>
+          <!-- EDIT: GitHub repo URL -->
+          <a href="https://github.com/isha200909/Heatwatch" target="_blank" class="btn-repo">
+            &#128196; View Repo &rarr;
           </a>
         </div>
 
-        <!-- ┌─────────────────────────────────────────────────┐
-             │  ADD MORE PROJECTS                              │
-             │  Copy the entire project-card block above       │
-             │  and paste it here for each additional project. │
-             └─────────────────────────────────────────────────┘ -->
+        <!-- ┌───── REPO BLOCK 2 ───── -->
+        <div class="repo-block">
+          <span class="repo-tool">Python</span>
+          <div class="repo-info">
+            <p class="repo-domain">Preventive Health</p>
+            <h4>Neighbourhood Health &amp; Wellness Profiler</h4>
+          </div>
+          <!-- EDIT: Replace with the correct GitHub repo URL -->
+          <a href="https://github.com/isha200909/WellnessExplorer" target="_blank" class="btn-repo">
+            &#128196; View Repo &rarr;
+          </a>
+        </div>
+
+        <!-- ┌───── REPO BLOCK 3 ───── -->
+        <div class="repo-block">
+          <span class="repo-tool">Python</span>
+          <div class="repo-info">
+            <p class="repo-domain">Real Estate</p>
+            <h4>HDB Pricing Estimator &amp; Town Recommender</h4>
+          </div>
+          <!-- EDIT: GitHub repo URL -->
+          <a href="https://github.com/isha200909/HDB_Pricing_Town_Recommender" target="_blank" class="btn-repo">
+            &#128196; View Repo &rarr;
+          </a>
+        </div>
+
+        <!-- ┌───── REPO BLOCK 4 ───── -->
+        <div class="repo-block">
+          <span class="repo-tool">Tableau</span>
+          <div class="repo-info">
+            <p class="repo-domain">Pandemic Preparedness</p>
+            <h4>COVID-19 Learnings for Disease X Preparation</h4>
+          </div>
+          <!-- EDIT: GitHub repo URL -->
+          <a href="https://github.com/isha200909/Pandemic_Preparedness" target="_blank" class="btn-repo">
+            &#128196; View Repo &rarr;
+          </a>
+        </div>
+
+        <!-- ┌───── REPO BLOCK 5 ───── -->
+        <div class="repo-block">
+          <span class="repo-tool">Power BI</span>
+          <div class="repo-info">
+            <p class="repo-domain">Market Analysis</p>
+            <h4>Global Food Distribution</h4>
+          </div>
+          <!-- EDIT: GitHub repo URL -->
+          <a href="https://github.com/isha200909/Market_Analysis" target="_blank" class="btn-repo">
+            &#128196; View Repo &rarr;
+          </a>
+        </div>
 
       </div>
-    </div>
-  </section>
+    </div><!-- /panel-github -->
+
+
+    <!-- ══════════════════════════════════════════
+         CONTACT PANEL
+         EDIT: LinkedIn URL and email address below.
+    ══════════════════════════════════════════ -->
+    <div class="tab-panel" id="panel-contact">
+      <div class="container">
+        <div class="contact-card">
+
+          <h2>Let's connect</h2>
+          <!-- EDIT: Update closing sentence if you wish -->
+          <p>
+            I'm exploring roles in programme management, strategy, operations, leveraging on data analytics 
+            — in health or beyond. If something here resonates, I'd love to hear from you.
+          </p>
+
+          <div class="contact-btns">
+            <!-- EDIT: Replace with your LinkedIn profile URL -->
+            <a href="www.linkedin.rebecca.com" target="_blank" class="btn-primary">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:16px;height:16px;fill:#fff;flex-shrink:0;">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              Connect on LinkedIn
+            </a>
+            <!-- EDIT: Replace with your email address -->
+            <a href="mailto:rebeccadawson@wellesley.com" class="btn-outline">
+              &#9993; Connect via Email
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- /panel-contact -->
+
+  </main>
 
 
   <!-- ════════════════════════════════════════════════════════
-       SECTION 2: ABOUT
-       Who it's for: Everyone — gives context about you
+       FOOTER
+       EDIT: Update name and year if needed.
   ════════════════════════════════════════════════════════ -->
-  <section id="about">
-    <div class="container">
-      <p class="section-label">Background</p>
-      <h2 class="section-title">About Me & This Portfolio</h2>
-
-      <div class="about-inner">
-        <!-- EDIT: Write 2–3 paragraphs about yourself and what connects your projects -->
-        <p>
-          I am a strong believer of the importance of using data to solve real-world problems. I focus on translating complex datasets into
-          clear, actionable tools for decision-makers from various organisations. My prior experience has been in the public health sector.
-        <p>
-          This portfolio brings together independent projects built during my General Assembly
-          Data Analytics programme (2026). Each project addresses a real-world problem using
-          open data, machine learning, and interactive visualisation.
-        </p>
-        <p>
-          <!-- EDIT: Optional — add your LinkedIn, institution, or contact info -->
-          For collaborations or enquiries, connect with me on
-          <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" style="color:#38bdf8;">LinkedIn</a>.
-        </p>
-
-        <!-- EDIT: Add or remove skill tags that represent your toolkit -->
-        <div class="skill-row">
-          <span class="skill-badge">Python</span>
-          <span class="skill-badge">Machine Learning</span>
-          <span class="skill-badge">LightGBM</span>
-          <span class="skill-badge">scikit-learn</span>
-          <span class="skill-badge">Streamlit</span>
-          <span class="skill-badge">Pandas</span>
-          <span class="skill-badge">Plotly</span>
-          <span class="skill-badge">SQL</span>
-          <span class="skill-badge">Public Health Data</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ════════════════════════════════════════════════════════
-       SECTION 3: TECHNICAL DEEP DIVE
-       Who it's for: Technical reviewers (data scientists, instructors)
-       What to do: Add one <div class="tech-project-block"> per project,
-                   matching the project cards above.
-                   Each block contains file cards linking to your GitHub files.
-  ════════════════════════════════════════════════════════ -->
-  <section id="technical">
-    <div class="container">
-      <p class="section-label">For Technical Reviewers</p>
-      <h2 class="section-title">Source Code & Notebooks</h2>
-      <p class="section-subtitle">
-        All source files are on GitHub. Notebooks render directly in the browser — no installation needed.
-      </p>
-
-      <!-- ┌─────────────────────────────────────────────────────┐
-           │  TECHNICAL BLOCK — PROJECT 1                        │
-           │  EDIT: Match this to Project Card 1 above           │
-           └─────────────────────────────────────────────────────┘ -->
-      <div class="tech-project-block">
-        <div class="tech-project-header">
-          <span class="icon">🌡️</span>
-          <!-- EDIT: Project name -->
-          <h3>Climate Health — HeatWatch Predictor</h3>
-          <!-- EDIT: Replace href with the URL of the whole GitHub repo for this project -->
-          <a href="https://github.com/isha200909/Heatwatch" target="_blank" class="repo-link">
-            📁 Full Repo →
-          </a>
-        </div>
-
-        <div class="file-grid">
-          
-          <!-- File card — Main app -->
-          <div class="file-card">
-            <div class="file-card-header">
-              <div class="file-icon">🐍</div>
-              <!-- EDIT: Filename -->
-              <h4>heatwatch_app.py</h4>
-            </div>
-            <!-- EDIT: One-line description of this file -->
-            <p>Main Streamlit app — UI, LightGBM model loading, prediction logic, Plotly charts.</p>
-            <!-- EDIT: Replace href with the direct GitHub link to this file -->
-            <a href="https://github.com/isha200909/Heatwatch/blob/main/heatwatch_app.py"
-               target="_blank" class="btn-code">📄 View on GitHub</a>
-          </div>
-
-          <!-- File card — Notebook -->
-          <div class="file-card">
-            <div class="file-card-header">
-              <div class="file-icon">📓</div>
-              <!-- EDIT: Filename -->
-              <h4>climate_models.ipynb</h4>
-            </div>
-            <!-- EDIT -->
-            <p>Model training notebook — hurdle model, Stage 1 classifier, Stage 2 regressor, temporal split.</p>
-            <!-- EDIT: Replace href with the direct GitHub link to this file -->
-            <a href="https://github.com/isha200909/Heatwatch/blob/main/climate_models.ipynb"
-               target="_blank" class="btn-code">📓 View Notebook</a>
-          </div>
-
-          <!-- File card — requirements -->
-          <div class="file-card">
-            <div class="file-card-header">
-              <div class="file-icon">📦</div>
-              <h4>requirements.txt</h4>
-            </div>
-            <p>Python dependencies. Install with <code style="color:#38bdf8;font-size:0.78rem">pip install -r requirements.txt</code>.</p>
-            <!-- EDIT -->
-            <a href="https://github.com/isha200909/Heatwatch/blob/main/requirements.txt"
-               target="_blank" class="btn-code">📄 View on GitHub</a>
-          </div>
-
-        </div><!-- /file-grid -->
-      </div><!-- /tech-project-block 1 -->
-
-
-      <!-- ┌─────────────────────────────────────────────────────┐
-           │  TECHNICAL BLOCK — PROJECT 2                        │
-           │  Copy the entire tech-project-block above           │
-           │  and edit for your second project.                  │
-           └─────────────────────────────────────────────────────┘ -->
-      <div class="tech-project-block">
-        <div class="tech-project-header">
-          <span class="icon">🏥</span>
-          <!-- EDIT -->
-          <h3>Neighbourhood Health & Wellness Profiler</h3>
-          <!-- EDIT -->
-          <a href="https://github.com/isha200909/WellnessExplorer" target="_blank" class="repo-link">
-            📁 Full Repo →
-          </a>
-        </div>
-
-        <div class="file-grid">
-
-          <div class="file-card">
-            <div class="file-card-header">
-              <div class="file-icon">🐍</div>
-              <!-- EDIT -->
-              <h4>app_v2.py</h4>
-            </div>
-            <!-- EDIT -->
-            <p>Main Streamlit app — UI, KMeans clustering for Town Archetypes, Cosine similarity for Synergy Matching.</p>
-            <!-- EDIT -->
-            <a href="https://github.com/isha200909/WellnessExplorer/blob/main/app_v2.py"
-               target="_blank" class="btn-code">📄 View on GitHub</a>
-          </div>
-
-    </div>
-  </section>
-
-
-  <!-- ════════════════════ FOOTER ════════════════════ -->
   <footer>
-    <div class="container">
-      <!-- EDIT: Your name and links -->
-      <p>
-        Built by <a href="https://github.com/isha200909" target="_blank">Nuriesya</a>
-        &nbsp;·&nbsp; General Assembly Data Science &nbsp;·&nbsp; 2026
-      </p>
-      <p style="margin-top: 8px;">
-        <a href="https://github.com/isha200909" target="_blank">GitHub Profile</a>
-        &nbsp;·&nbsp;
-        <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank">LinkedIn</a>
-        &nbsp;·&nbsp;
-        <a href="#projects">Back to Projects</a>
-      </p>
-    </div>
+    <!-- EDIT: Your name -->
+    <p>&copy; 2026 Rebecca &nbsp;&middot;&nbsp; <a href="#">Back to top &uarr;</a></p>
   </footer>
 
+
+  <!-- ════════════════════════════════════════════════════════
+       JAVASCRIPT — Tab switching logic.
+       No edits needed here.
+
+       How it works:
+       - Each button has a data-tab="xxx" attribute
+       - Clicking removes .active from all panels/buttons,
+         then adds .active to the matching panel and button
+       - On first load, NO tab is active — only the hero shows
+       - If the URL has a hash e.g. index.html#intro,
+         that tab opens automatically on load
+  ════════════════════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════════════════════
+       LIGHTBOX OVERLAY
+       Clicking any project thumbnail opens this overlay.
+       Use arrow keys or on-screen arrows to navigate images
+       within the same project. Press Escape or click outside
+       to close. No edits needed here.
+  ════════════════════════════════════════════════════════ -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button id="lightbox-close" aria-label="Close">&times;</button>
+    <button id="lightbox-prev" aria-label="Previous image">&#8592;</button>
+    <img id="lightbox-img" src="" alt="" />
+    <button id="lightbox-next" aria-label="Next image">&#8594;</button>
+  </div>
+
   <script>
-    const themeToggle = document.getElementById('theme-toggle');
-    const body = document.body;
+    /* ── Tab switching ── */
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    const tabClose = document.getElementById('tab-close');
 
-    // Check for saved theme in localStorage (wrapped in try-catch for local file:// access errors)
-    let savedTheme = null;
-    try {
-      savedTheme = localStorage.getItem('theme');
-    } catch (e) {
-      console.warn("localStorage is not available locally. Theme will reset on refresh.");
+    function activateTab(tabName) {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabPanels.forEach(p => p.classList.remove('active'));
+      const btn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+      const panel = document.getElementById(`panel-${tabName}`);
+      if (btn) btn.classList.add('active');
+      if (panel) panel.classList.add('active');
+      // Show the close button whenever a tab is open
+      tabClose.classList.add('visible');
+      document.getElementById('tab-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    if (savedTheme === 'light') {
-      body.classList.add('light-mode');
-      themeToggle.textContent = '🌙';
+    function closeAllTabs() {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabPanels.forEach(p => p.classList.remove('active'));
+      // Hide the close button when back to hero-only view
+      tabClose.classList.remove('visible');
+      // Scroll back up to the hero
+      document.getElementById('hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    themeToggle.addEventListener('click', () => {
-      body.classList.toggle('light-mode');
-      const isLightMode = body.classList.contains('light-mode');
-      
-      if (isLightMode) {
-        themeToggle.textContent = '🌙'; // Moon for switching back to dark
-        themeToggle.setAttribute('aria-label', 'Switch to dark mode');
-      } else {
-        themeToggle.textContent = '☀️'; // Sun for switching to light
-        themeToggle.setAttribute('aria-label', 'Switch to light mode');
-      }
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+    });
 
-      // Safely try to save the preference
-      try {
-        localStorage.setItem('theme', isLightMode ? 'light' : 'dark');
-      } catch (e) {
-        // Ignored
-      }
+    // Close button click — deactivate all tabs and return to hero
+    tabClose.addEventListener('click', closeAllTabs);
+
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById(`panel-${hash}`)) {
+      activateTab(hash);
+    }
+
+    /* ── Lightbox ──
+       When a .thumb is clicked, the lightbox opens showing
+       that image. If the project card has two thumbnails,
+       prev/next arrows let the visitor switch between them.
+    */
+    const lightbox     = document.getElementById('lightbox');
+    const lbImg        = document.getElementById('lightbox-img');
+    const lbClose      = document.getElementById('lightbox-close');
+    const lbPrev       = document.getElementById('lightbox-prev');
+    const lbNext       = document.getElementById('lightbox-next');
+
+    let currentSet   = [];   // array of {src, alt} for the current project card
+    let currentIndex = 0;
+
+    function openLightbox(set, index) {
+      currentSet   = set;
+      currentIndex = index;
+      showLightboxImage();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';  // prevent page scroll while open
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function showLightboxImage() {
+      lbImg.src = currentSet[currentIndex].src;
+      lbImg.alt = currentSet[currentIndex].alt;
+      // Show/hide nav arrows depending on whether there are multiple images
+      const multi = currentSet.length > 1;
+      lbPrev.classList.toggle('hidden', !multi);
+      lbNext.classList.toggle('hidden', !multi);
+    }
+
+    // Attach click events to every .thumb
+    document.querySelectorAll('.project-images').forEach(container => {
+      const thumbs = Array.from(container.querySelectorAll('.thumb img'));
+      const set = thumbs.map(img => ({ src: img.src, alt: img.alt }));
+
+      thumbs.forEach((img, i) => {
+        img.parentElement.addEventListener('click', () => openLightbox(set, i));
+      });
+    });
+
+    // Close on background click
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // Close button
+    lbClose.addEventListener('click', closeLightbox);
+
+    // Prev / Next buttons
+    lbPrev.addEventListener('click', e => {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length;
+      showLightboxImage();
+    });
+    lbNext.addEventListener('click', e => {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % currentSet.length;
+      showLightboxImage();
+    });
+
+    // Keyboard: Escape to close, arrow keys to navigate
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape')      closeLightbox();
+      if (e.key === 'ArrowLeft')  { currentIndex = (currentIndex - 1 + currentSet.length) % currentSet.length; showLightboxImage(); }
+      if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % currentSet.length; showLightboxImage(); }
     });
   </script>
+
 </body>
 </html>
-```
